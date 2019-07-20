@@ -22,6 +22,7 @@ type Booking struct {
 type UpdateQuery struct {
 	QueryTimeStart time.Time
 	QueryTimeEnd time.Time
+	RouteID int
 }
 
 type UpdateResponse struct {
@@ -84,9 +85,9 @@ func QueryHandler (w http.ResponseWriter, request *http.Request) {
 	w.Write(bookingsJSON)
 }
 
-func isUpdateRequired(QueryTimeStart time.Time, QueryTimeEnd time.Time) bool {
-	query := `select * from cab_sharing where StartTime <= $1 and EndTime >= $2;`
-	rows, err := db.Query(query, QueryTimeEnd, QueryTimeStart)
+func isUpdateRequired(QueryTimeStart time.Time, QueryTimeEnd time.Time, RouteID int) bool {
+	query := `select * from cab_sharing where StartTime <= $1 and EndTime >= $2 and RouteID = $3;`
+	rows, err := db.Query(query, QueryTimeEnd, QueryTimeStart, RouteID)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -106,7 +107,7 @@ func UpdateHandler(w http.ResponseWriter, request *http.Request) {
 	if (err != nil) {
 		panic(err)
 	}
-	updateResponse := UpdateResponse{isUpdateRequired(updateQuery.QueryTimeStart, updateQuery.QueryTimeEnd)}
+	updateResponse := UpdateResponse{isUpdateRequired(updateQuery.QueryTimeStart, updateQuery.QueryTimeEnd, updateQuery.RouteID)}
 	updateJSON, err := json.Marshal(updateResponse)
 	if (err != nil) {
 		panic(err)
