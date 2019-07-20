@@ -2,7 +2,7 @@
 
 Online now on http://13.233.90.143
 
-## API REFERENCE
+## API Reference
 
 The API features 3 endpoints. 
 ### Publish 
