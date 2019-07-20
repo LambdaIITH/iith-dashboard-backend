@@ -15,7 +15,7 @@ The StartTime and EndTime timestamps indicate the time period in which the booke
 ### Update 
 /update - This is used to check whether an update is required from the server. If the user prescribes a time period he is interested in, the app keeps querying this endpoint at specific intervals, to see whether a booking which overlaps with this period has been registered. 
 ```
-curl -X POST -d '{"QueryTimeStart": "2010-02-01T09:27:56.321+05:30", "QueryTimeEnd": "2012-02-01T09:27:56.321+05:30"}' http://13.233.90.143/update 
+curl -X POST -d '{"QueryTimeStart": "2010-02-01T09:27:56.321+05:30", "QueryTimeEnd": "2012-02-01T09:27:56.321+05:30", "RouteID": 10}' http://13.233.90.143/update
 ```
 If a booking containing that QueryTime has been registered: 
 ```
