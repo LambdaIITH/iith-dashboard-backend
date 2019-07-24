@@ -91,7 +91,7 @@ func QueryHandler (w http.ResponseWriter, request *http.Request) {
 	var bookings Bookings
 	for rows.Next() {
 		var booking BookingWithToken
-		if err := rows.Scan(&booking.Email, &booking.StartTime, &booking.EndTime, &booking.RouteID, &booking.Token); err != nil {
+		if err := rows.Scan(&booking.Email, &booking.StartTime, &booking.EndTime, &booking.RouteID); err != nil {
 			fmt.Println(err)
 			return
 		}
