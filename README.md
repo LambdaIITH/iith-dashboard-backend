@@ -1,6 +1,6 @@
 # DASHBOARD BACKEND
 
-Online now on http://13.233.90.143
+Online now at https://iith.dev
 
 ## API Reference
 
