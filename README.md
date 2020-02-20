@@ -4,7 +4,7 @@ Online now at https://iith.dev
 
 ## API Reference
 
-The API features 3 endpoints. 
+The API features 5 endpoints. 
 ### Publish 
 /publish - This is used to register a cab booking. 
 ```
@@ -24,3 +24,14 @@ If a booking containing that QueryTime has been registered:
 
 ### Query 
 /query - Returns a JSON object with all the bookings registered on the server. Just visit http://13.233.90.143/query and you should see all the bookings on the database. 
+
+### Bus Schedules (Public Endpoint)
+/v2/bus - Returns the bus schedules 
+```
+curl https://iith.dev/v2/bus
+```
+### Mess Menu (Public Endpoint)
+/dining
+```
+curl https://iith.dev/dining
+```
