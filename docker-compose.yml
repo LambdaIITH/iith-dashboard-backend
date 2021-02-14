@@ -20,6 +20,8 @@ services:
             POSTGRES_USER: postgres
             POSTGRES_PASS: p123
             POSTGRES_DB: dashboard
+        depends_on:
+            - db
 
 volumes:
     postgres_data:

@@ -161,6 +161,10 @@ func DeleteHandler(w http.ResponseWriter, request *http.Request) {
 	}
 }
 
+func DiningHandler(w http.ResponseWriter, r *http.Request) {
+	http.ServeFile(w, r, "dining.json")
+}
+
 func main() {
 	PORT, err := strconv.Atoi(os.Getenv("POSTGRES_PORT"))
 	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
@@ -184,6 +188,7 @@ func main() {
 	r.HandleFunc("/query", QueryHandler)
 	r.HandleFunc("/update", UpdateHandler)
 	r.HandleFunc("/delete", DeleteHandler)
+	r.HandleFunc("/dining", DiningHandler)
 	fmt.Println("Set up server.")
 	log.Fatal(http.ListenAndServe(":8000", r))
 }
