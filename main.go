@@ -2,30 +2,32 @@ package main
 
 import (
 	"database/sql"
-	"fmt"
-	"time"
-	"log"
 	"encoding/json"
-	_ "github.com/lib/pq"
+	firebase "firebase.google.com/go"
+	"fmt"
 	"github.com/gorilla/mux"
-	"net/http"
+	_ "github.com/lib/pq"
 	"golang.org/x/net/context"
-  firebase "firebase.google.com/go"
-  "google.golang.org/api/option"
+	"google.golang.org/api/option"
+	"log"
+	"net/http"
+	"os"
+	"strconv"
+	"time"
 )
 
 type BookingWithToken struct {
-	Email string
+	Email     string
 	StartTime time.Time
-	EndTime time.Time
-	RouteID int
-	Token string
+	EndTime   time.Time
+	RouteID   int
+	Token     string
 }
 
 type UpdateQuery struct {
 	QueryTimeStart time.Time
-	QueryTimeEnd time.Time
-	RouteID int
+	QueryTimeEnd   time.Time
+	RouteID        int
 }
 
 type UpdateResponse struct {
@@ -33,14 +35,6 @@ type UpdateResponse struct {
 }
 
 type Bookings []BookingWithToken
-
-const (
-  host     = "localhost"
-  port     = 5432
-  user     = "postgres"
-  password = "your-password"
-  dbname   = "iith_dashboard"
-)
 
 var db *sql.DB
 var app *firebase.App
@@ -56,11 +50,11 @@ func InsertBooking(booking BookingWithToken) {
 	}
 }
 
-func PublishHandler (w http.ResponseWriter, request *http.Request) {
+func PublishHandler(w http.ResponseWriter, request *http.Request) {
 	decoder := json.NewDecoder(request.Body)
 	var booking BookingWithToken
 	err := decoder.Decode(&booking)
-	if (err != nil) {
+	if err != nil {
 		panic(err)
 	}
 	client, err := app.Auth(context.Background())
@@ -69,7 +63,7 @@ func PublishHandler (w http.ResponseWriter, request *http.Request) {
 		return
 	}
 	token, err := client.VerifyIDToken(request.Context(), booking.Token)
-	
+
 	if err != nil {
 		fmt.Printf("error verifying ID token: %v\n", err)
 		return
@@ -80,14 +74,14 @@ func PublishHandler (w http.ResponseWriter, request *http.Request) {
 	InsertBooking(bookingWithUid)
 }
 
-func QueryHandler (w http.ResponseWriter, request *http.Request) {
+func QueryHandler(w http.ResponseWriter, request *http.Request) {
 	query := `select * from cab_sharing ;`
 	rows, err := db.Query(query)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
-	defer rows.Close()	
+	defer rows.Close()
 	var bookings Bookings
 	for rows.Next() {
 		var booking BookingWithToken
@@ -113,7 +107,7 @@ func isUpdateRequired(QueryTimeStart time.Time, QueryTimeEnd time.Time, RouteID 
 		fmt.Println(err)
 		return false
 	}
-	defer rows.Close()	
+	defer rows.Close()
 	doesExist := false
 	for rows.Next() {
 		doesExist = true
@@ -126,12 +120,12 @@ func UpdateHandler(w http.ResponseWriter, request *http.Request) {
 	decoder := json.NewDecoder(request.Body)
 	var updateQuery UpdateQuery
 	err := decoder.Decode(&updateQuery)
-	if (err != nil) {
+	if err != nil {
 		panic(err)
 	}
 	updateResponse := UpdateResponse{isUpdateRequired(updateQuery.QueryTimeStart, updateQuery.QueryTimeEnd, updateQuery.RouteID)}
 	updateJSON, err := json.Marshal(updateResponse)
-	if (err != nil) {
+	if err != nil {
 		panic(err)
 	}
 	w.Header().Set("Content-Type", "application/json")
@@ -142,7 +136,7 @@ func DeleteHandler(w http.ResponseWriter, request *http.Request) {
 	decoder := json.NewDecoder(request.Body)
 	var booking BookingWithToken
 	err := decoder.Decode(&booking)
-	if (err != nil) {
+	if err != nil {
 		panic(err)
 	}
 	client, err := app.Auth(context.Background())
@@ -151,7 +145,7 @@ func DeleteHandler(w http.ResponseWriter, request *http.Request) {
 		return
 	}
 	token, err := client.VerifyIDToken(request.Context(), booking.Token)
-	
+
 	if err != nil {
 		fmt.Printf("error verifying ID token: %v\n", err)
 		return
@@ -168,10 +162,10 @@ func DeleteHandler(w http.ResponseWriter, request *http.Request) {
 }
 
 func main() {
-	var err error 
+	PORT, err := strconv.Atoi(os.Getenv("POSTGRES_PORT"))
 	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
-    "password=%s dbname=%s sslmode=disable",
-    host, port, user, password, dbname)
+		"password=%s dbname=%s sslmode=disable",
+		os.Getenv("POSTGRES_HOST"), PORT, os.Getenv("POSTGRES_USER"), os.Getenv("POSTGRES_PASS"), os.Getenv("POSTGRES_DB"))
 	db, err = sql.Open("postgres", psqlInfo)
 	if err != nil {
 		panic(err)
