@@ -2,16 +2,15 @@ version: "3.9"
 
 services:
     db:
-        image: postgres:12-alpine
+        image: lambdaiith/iith-dashboard-backend-db:latest
         volumes:
-            - ./init.sql:/docker-entrypoint-initdb.d/10-init.sql
             - postgres_data:/var/lib/postgresql/data
         environment:
             - POSTGRES_USER=postgres
             - POSTGRES_PASSWORD=p123
             - POSTGRES_DB=dashboard
     web:
-        build: .
+        image: lambdaiith/iith-dashboard-backend-web:latest
         ports: 
             - "8000:8000"
         environment:
@@ -22,6 +21,16 @@ services:
             POSTGRES_DB: dashboard
         depends_on:
             - db
+    caddy:
+        image: caddy:latest
+        restart: unless-stopped
+        ports: 
+            - "80:80"
+            - "443:443"
+        volumes:
+            - ./Caddyfile:/etc/caddy/Caddyfile
+        depends_on:
+            - web
 
 volumes:
     postgres_data:
