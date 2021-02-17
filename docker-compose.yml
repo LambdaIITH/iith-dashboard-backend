@@ -21,6 +21,7 @@ services:
             POSTGRES_DB: dashboard
         depends_on:
             - db
+        restart: on-failure:10
     caddy:
         image: caddy:latest
         restart: unless-stopped
@@ -31,6 +32,7 @@ services:
             - ./Caddyfile:/etc/caddy/Caddyfile
         depends_on:
             - web
+        restart: on-failure:10
 
 volumes:
     postgres_data:
