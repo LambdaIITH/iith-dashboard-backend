@@ -7,7 +7,7 @@ route /dining {
 	file_server /static/dining.json
 }
 handle_path /curriculum/* {
-	root * /static/curriculum
+	root * /static/academic-curriculum
 	file_server browse
 }
 reverse_proxy web:8000

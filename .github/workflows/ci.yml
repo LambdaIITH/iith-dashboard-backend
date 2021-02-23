@@ -55,7 +55,7 @@ jobs:
           key: ${{ secrets.KEY }}
           port: 22
           overwrite: true
-          source: "docker-compose.yml,Caddyfile"
+          source: "docker-compose.yml,Caddyfile,static"
           target: "compose"
       - 
         name: executing remote ssh commands using ssh key
