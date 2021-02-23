@@ -162,11 +162,11 @@ func DeleteHandler(w http.ResponseWriter, request *http.Request) {
 }
 
 func DiningHandler(w http.ResponseWriter, r *http.Request) {
-	http.ServeFile(w, r, "dining.json")
+	http.ServeFile(w, r, "static/dining.json")
 }
 
 func BusHandler(w http.ResponseWriter, r *http.Request) {
-	http.ServeFile(w, r, "bus.json")
+	http.ServeFile(w, r, "static/bus.json")
 }
 
 func main() {
@@ -194,6 +194,7 @@ func main() {
 	r.HandleFunc("/delete", DeleteHandler)
 	r.HandleFunc("/dining", DiningHandler)
 	r.HandleFunc("/v2/bus", BusHandler)
+	r.Handle("/curriculum", http.FileServer(http.Dir("./static/curriculum")))
 	fmt.Println("Set up server.")
 	log.Fatal(http.ListenAndServe(":8000", r))
 }
