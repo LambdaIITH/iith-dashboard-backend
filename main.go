@@ -161,14 +161,6 @@ func DeleteHandler(w http.ResponseWriter, request *http.Request) {
 	}
 }
 
-func DiningHandler(w http.ResponseWriter, r *http.Request) {
-	http.ServeFile(w, r, "static/dining.json")
-}
-
-func BusHandler(w http.ResponseWriter, r *http.Request) {
-	http.ServeFile(w, r, "static/bus.json")
-}
-
 func main() {
 	PORT, err := strconv.Atoi(os.Getenv("POSTGRES_PORT"))
 	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
@@ -192,9 +184,6 @@ func main() {
 	r.HandleFunc("/query", QueryHandler)
 	r.HandleFunc("/update", UpdateHandler)
 	r.HandleFunc("/delete", DeleteHandler)
-	r.HandleFunc("/dining", DiningHandler)
-	r.HandleFunc("/v2/bus", BusHandler)
-	r.PathPrefix("/curriculum/").Handler(http.StripPrefix("/curriculum/", http.FileServer(http.Dir("./static/curriculum/"))))
 	fmt.Println("Set up server.")
 	log.Fatal(http.ListenAndServe(":8000", r))
 }

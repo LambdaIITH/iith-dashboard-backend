@@ -30,6 +30,7 @@ services:
             - "443:443"
         volumes:
             - ./Caddyfile:/etc/caddy/Caddyfile
+            - ./static:/static
         depends_on:
             - web
         restart: on-failure:10
