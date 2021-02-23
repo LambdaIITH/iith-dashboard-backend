@@ -1,13 +1,17 @@
 iith.dev
 encode gzip
+
 route /v2/bus {
 	file_server /static/bus.json
 }
+
 route /dining {
 	file_server /static/dining.json
 }
+
 handle_path /curriculum/* {
 	root * /static/academic-curriculum
 	file_server browse
 }
+
 reverse_proxy web:8000
