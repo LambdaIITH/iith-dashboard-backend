@@ -6,7 +6,8 @@ route /v2/bus {
 route /dining {
 	file_server /static/dining.json
 }
-route /curriculum {
-	file_server /static/curriculum browse
+handle_path /curriculum/* {
+	root /static/curriculum
+	file_server browse
 }
 reverse_proxy web:8000
