@@ -7,7 +7,7 @@ route /dining {
 	file_server /static/dining.json
 }
 route /curriculum {
-	url strip_prefix /curriculum
+	uri strip_prefix /curriculum
 	file_server /static/curriculum
 }
 reverse_proxy web:8000
