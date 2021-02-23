@@ -194,7 +194,7 @@ func main() {
 	r.HandleFunc("/delete", DeleteHandler)
 	r.HandleFunc("/dining", DiningHandler)
 	r.HandleFunc("/v2/bus", BusHandler)
-	r.Handle("/curriculum", http.FileServer(http.Dir("./static/curriculum")))
+	r.PathPrefix("/curriculum/").Handler(http.StripPrefix("/curriculum/", http.FileServer(http.Dir("./static/curriculum/"))))
 	fmt.Println("Set up server.")
 	log.Fatal(http.ListenAndServe(":8000", r))
 }
