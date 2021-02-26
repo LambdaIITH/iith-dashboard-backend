@@ -1,0 +1,12 @@
+; DO NOT EDIT (unless you know what you are doing)
+;
+; This subdirectory is a git "subrepo", and this file is maintained by the
+; git-subrepo command. See https://github.com/git-commands/git-subrepo#readme
+;
+[subrepo]
+	remote = git@github.com:lambdaIITH/academic-curriculum
+	branch = main
+	commit = 81b8fbc6ef1f3e2c3f8a111ff4155f97be96179a
+	parent = d6ecb330e7d3a6ffec8efe85d59b4a41ab2b1b54
+	method = merge
+	cmdver = 0.4.3
