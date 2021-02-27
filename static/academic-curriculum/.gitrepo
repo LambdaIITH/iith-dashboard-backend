@@ -6,7 +6,7 @@
 [subrepo]
 	remote = git@github.com:lambdaIITH/academic-curriculum
 	branch = main
-	commit = 2d2310ebad05b67ec7cfb94956f21b8e35ee5db2
-	parent = 7a81935459c81226a2f959bb0107701b68c4ef04
+	commit = f2a8f34c85f8dc38f32bf889330b92f95dd4255c
+	parent = 695ef90313bb06786bb23ff25d938946f9968671
 	method = merge
 	cmdver = 0.4.3
