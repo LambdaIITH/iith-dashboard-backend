@@ -8,4 +8,4 @@ RUN pip install google-api-python-client google-auth-oauthlib
 
 COPY . .
 
-CMD [ "python", "testacad.py" ]
+CMD [ "python", "./testacad.py" ]
