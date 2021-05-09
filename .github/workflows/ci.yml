@@ -54,6 +54,13 @@ jobs:
       -
         name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
+      -
+        name: create-json
+        id: create-json
+        uses: jsdaniell/create-json@1.1.2
+        with: 
+          name: "credentials1.json"
+          json: ${{ secrets.CREDENTIALS_JSON }}
       - 
         name: copy file
         uses: appleboy/scp-action@master
@@ -63,16 +70,8 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           port: 22
           overwrite: true
-          source: "docker-compose.yml,Caddyfile,static"
+          source: "docker-compose.yml,Caddyfile,static,credentials1.json"
           target: "compose"
-      -
-        name: create=json
-        id: create-json
-        uses: jsdaniell/create-json@1.1.2
-        with: 
-          name: "credentials1.json"
-          json: ${{ secrets.CREDENTIALS_JSON }}
-          dir: 'compose/'
       - 
         name: executing remote ssh commands using ssh key
         uses: appleboy/ssh-action@master
