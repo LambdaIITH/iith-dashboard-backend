@@ -43,6 +43,14 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: lambdaiith/iith-dashboard-backend-web:latest
+      - 
+        name: Build and push
+        uses: docker/build-push-action@v2
+        with: 
+          context: .
+          file: ./academic-curriculum-script/Dockerfile
+          push: true
+          tags: lambdaiith/iith-dashboard-backend-script:latest
       -
         name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
@@ -57,6 +65,14 @@ jobs:
           overwrite: true
           source: "docker-compose.yml,Caddyfile,static"
           target: "compose"
+      -
+        name: create=json
+        id: create-json
+        uses: jsdaniell/create-json@1.1.2
+        with: 
+          name: "credentials1.json"
+          json: ${{ secrets.CREDENTIALS_JSON }}
+          dir: 'compose/'
       - 
         name: executing remote ssh commands using ssh key
         uses: appleboy/ssh-action@master

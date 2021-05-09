@@ -22,6 +22,12 @@ services:
         depends_on:
             - db
         restart: on-failure:10
+    script: 
+        image: lambdaiith/iith-dashboard-backend-script:latest
+        ports: 
+            - "5555:5555"
+        volumes:
+            - ./credentials1.json:/usr/src/app/credentials1.json
     caddy:
         image: caddy:latest
         restart: unless-stopped
@@ -33,6 +39,7 @@ services:
             - ./static:/static
         depends_on:
             - web
+            - script
         restart: on-failure:10
 
 volumes:

@@ -14,4 +14,8 @@ handle_path /curriculum/* {
 	file_server browse
 }
 
+:5555 {
+	reverse_proxy script:5555
+}
+
 reverse_proxy web:8000
