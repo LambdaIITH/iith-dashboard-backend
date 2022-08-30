@@ -13,7 +13,6 @@ current_week = d.isocalendar()[1] - datetime.date(d.year,d.month,1).isocalendar(
 
 gc = gspread.oauth()
 sh = gc.open_by_url("https://docs.google.com/spreadsheets/d/13R9rHEto70_CeFNH8e5Sybj5oYaz0WOBl_lY1an8P2U")
-#sh = gc.open_by_url("https://docs.google.com/spreadsheets/d/1ZiprHJUM98G6yS-aN1h5Vt1IJLjDavuDmJL-dxVaEsc")
 weekly = sh.worksheet("Aug'22")
 additionals = sh.worksheet("Extras")
 
@@ -51,18 +50,10 @@ days = ["Sunday", "Monday", "Tuesday",
         "Wednesday", "Thursday", "Friday", "Saturday"]
 meals = ["Breakfast", "Lunch", "Snacks", "Dinner"]
 
-regular_items = {}
-extra_items = {}
-daily_items = {}
 
-for day in days:
-    regular_items[day] = {}
-    extra_items[day] = {}
-for meal in meals:
-    for day in days:
-        regular_items[day][meal] = []
-        extra_items[day][meal] = []
-    daily_items[meal] = []
+regular_items = {day:{meal:[] for meal in meals} for day in days}
+extra_items = {day:{meal:[] for meal in meals} for day in days}
+daily_items = {meal:[] for meal in meals}
 
 
 def clean(text: str):
@@ -71,11 +62,7 @@ def clean(text: str):
 #-------------------------------------------------------------------------------
 # Takes contents of a cell and splits it into multiple
 def parse_cell_items(text: str):
-    # BUG:
-    #  EXTRAS:
-    #   Wednesday dinner: 2 items, \n is delim
-    #   Sunday snacks:    1 item,  \n is not delim (this one breaks)
-
+    
     # Check for empty input
     if text.strip() == "":
         return []
