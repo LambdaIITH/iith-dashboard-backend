@@ -3,6 +3,7 @@ import gspread
 import numpy
 import string
 import datetime
+from oauth2client.service_account import ServiceAccountCredentials
 #-------------------------------------------------------------------------------
 # What week is now? (1/2/3/4) (for deciding which menu to use)
 d = datetime.date.today()
@@ -10,8 +11,15 @@ current_week = d.isocalendar()[1] - datetime.date(d.year,d.month,1).isocalendar(
 
 #-------------------------------------------------------------------------------
 # Get sheets
+scope = [
+    "https://www.googleapis.com/auth/spreadsheets",
+    "https://www.googleapis.com/auth/drive",
+    "https://spreadsheets.google.com/feeds",
+]
+creds = ServiceAccountCredentials.from_json_keyfile_name("credentials.json", scope)
+gc = gspread.authorize(creds)
 
-gc = gspread.oauth()
+# gc = gspread.oauth()
 sh = gc.open_by_url("https://docs.google.com/spreadsheets/d/13R9rHEto70_CeFNH8e5Sybj5oYaz0WOBl_lY1an8P2U")
 weekly = sh.worksheet("Aug'22")
 additionals = sh.worksheet("Extras")
