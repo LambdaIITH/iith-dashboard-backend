@@ -21,7 +21,7 @@ gc = gspread.authorize(creds)
 
 # gc = gspread.oauth()
 sh = gc.open_by_url("https://docs.google.com/spreadsheets/d/13R9rHEto70_CeFNH8e5Sybj5oYaz0WOBl_lY1an8P2U")
-weekly = sh.worksheet("Aug'22")
+weekly = sh.worksheet("Dec'22")
 additionals = sh.worksheet("Extras")
 
 #-------------------------------------------------------------------------------
