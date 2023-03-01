@@ -21,14 +21,14 @@ gc = gspread.authorize(creds)
 
 # gc = gspread.oauth()
 sh = gc.open_by_url("https://docs.google.com/spreadsheets/d/13R9rHEto70_CeFNH8e5Sybj5oYaz0WOBl_lY1an8P2U")
-weekly = sh.worksheet("Mar'23")
+weekly = sh.worksheet("March'23")
 additionals = sh.worksheet("Extras")
 
 #-------------------------------------------------------------------------------
 # finding correct worksheet
 while True:
     try:
-        weekly = sh.worksheet(d.strftime("%b'%y"))
+        weekly = sh.worksheet(d.strftime("%B'%y"))
     except:
         if (d.month>=11):
             d = d.fromisoformat(d.strftime("%Y-{}-%d".format(d.month-1)))
