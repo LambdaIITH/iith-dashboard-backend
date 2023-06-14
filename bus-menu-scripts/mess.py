@@ -20,22 +20,11 @@ creds = ServiceAccountCredentials.from_json_keyfile_name("credentials.json", sco
 gc = gspread.authorize(creds)
 
 # gc = gspread.oauth()
-sh = gc.open_by_url("https://docs.google.com/spreadsheets/d/13R9rHEto70_CeFNH8e5Sybj5oYaz0WOBl_lY1an8P2U")
-weekly = sh.worksheet("March'23")
+sh = gc.open_by_url("https://docs.google.com/spreadsheets/d/1JwWYMajEwihR8-xIfa9aZ7e4WrBuUEdEGDJH2aAj78g")
+weekly = sh.worksheet("Main Menu")
 additionals = sh.worksheet("Extras")
 
-#-------------------------------------------------------------------------------
-# finding correct worksheet
-while True:
-    try:
-        weekly = sh.worksheet(d.strftime("%B'%y"))
-    except:
-        if (d.month>=11):
-            d = d.fromisoformat(d.strftime("%Y-{}-%d".format(d.month-1)))
-        else:
-            d = d.fromisoformat(d.strftime("%Y-0{}-%d".format(d.month-1)))
-    else:
-        break
+
 
 weekly_grid = numpy.array(weekly.get_all_values())
 additionals_grid = numpy.array(additionals.get_all_values())
