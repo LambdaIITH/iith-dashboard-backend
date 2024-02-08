@@ -7,7 +7,7 @@ from oauth2client.service_account import ServiceAccountCredentials
 #-------------------------------------------------------------------------------
 # What week is now? (1/2/3/4) (for deciding which menu to use)
 d = datetime.date.today()
-current_week = d.isocalendar()[1] - datetime.date(d.year,d.month,1).isocalendar()[1] + 1
+current_week = d.isocalendar()[1] - datetime.date(d.year,d.month,1).isocalendar()[1] + 2
 
 #-------------------------------------------------------------------------------
 # Get sheets
