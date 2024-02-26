@@ -7,7 +7,7 @@ from oauth2client.service_account import ServiceAccountCredentials
 #-------------------------------------------------------------------------------
 # What week is now? (1/2/3/4) (for deciding which menu to use)
 d = datetime.date.today()
-current_week = d.isocalendar()[1] - datetime.date(d.year,d.month,1).isocalendar()[1] + 2
+current_week = d.isocalendar()[1] - datetime.date(d.year,d.month,1).isocalendar()[1] + 1
 
 #-------------------------------------------------------------------------------
 # Get sheets
@@ -20,9 +20,9 @@ creds = ServiceAccountCredentials.from_json_keyfile_name("credentials.json", sco
 gc = gspread.authorize(creds)
 
 # gc = gspread.oauth()
-sh = gc.open_by_url("https://docs.google.com/spreadsheets/d/1JwWYMajEwihR8-xIfa9aZ7e4WrBuUEdEGDJH2aAj78g")
-weekly = sh.worksheet("Main Menu")
-additionals = sh.worksheet("Extras")
+sh = gc.open_by_url("https://docs.google.com/spreadsheets/d/1XU44bhxu2_Z_HnImXZIM3Iqt6ZvukTbF3YGZZV19NLs")
+weekly = sh.worksheet("main menu")
+additionals = sh.worksheet("extras")
 
 
 
